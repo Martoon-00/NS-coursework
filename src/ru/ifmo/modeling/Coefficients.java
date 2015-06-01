@@ -213,7 +213,7 @@ public class Coefficients {
         }
 
         /**
-         * @return T -> K, according to entry formula.
+         * @return T -> K, according to internal formula.
          */
         public Function<Double, Double> build() {
             return t -> {
