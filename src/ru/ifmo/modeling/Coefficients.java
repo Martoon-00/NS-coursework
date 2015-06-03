@@ -45,7 +45,7 @@ public class Coefficients {
     }
 
     /**
-     * For each i: T -> K_i
+     * i -> T -> K_i(T)
      */
     private static Map<Integer, Function<Double, Double>> KCounters = new HashMap<>();
 
@@ -114,7 +114,7 @@ public class Coefficients {
         return coefs.get(element.toUpperCase()).getDCounter();
     }
 
-    // ----------------------------------------------- usefull classes -----------------------------------------------
+    // ----------------------------------------------- useful classes -----------------------------------------------
 
     /**
      * Contains information about coefficients of some element (h, f1..7, mu, sigma, eps)
