@@ -1,4 +1,4 @@
-package ru.ifmo.modeling;
+package ru.ifmo.lang;
 
 
 public class Typke {
