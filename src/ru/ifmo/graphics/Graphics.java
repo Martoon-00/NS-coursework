@@ -9,11 +9,17 @@ import java.util.List;
 
 public class Graphics {
 
+    private Chart chart;
+
+    public Graphics(String XAsis, String YAsis) {
+        chart = new ChartBuilder().width(800).height(600).build();
+        chart.getStyleManager().setLegendPosition(StyleManager.LegendPosition.InsideNW);
+        chart.setXAxisTitle(XAsis);
+        chart.setYAxisTitle(YAsis);
+    }
 
     public static void main(String[] args) throws Exception {
 
-        double[] xData = new double[]{0.0, 1.0, 2.0};
-        double[] yData = new double[]{2.0, 1.0, 0.0};
 
         LinkedList<Typke> list = new LinkedList<>();
         list.add(new Typke(2,2));
@@ -24,26 +30,28 @@ public class Graphics {
         list1.add(new Typke(2,4));
         list1.add(new Typke(4,5));
         list1.add(new Typke(100, 34));
-        drawLnInv(list, list1);
+
+        Graphics g = new Graphics("A", "s");
+        g.addLnInvGraphic(list, "G1");
+        g.addLnInvGraphic(list1, "G2");
+        g.show();
 
     }
 
-    public static void drawLnInv(LinkedList<Typke> ... functions) {
-        Chart chart = new ChartBuilder().width(800).height(600).build();
-        chart.getStyleManager().setLegendPosition(StyleManager.LegendPosition.InsideNW);
-        //chart.setXAxisTitle("1/T");
-        //chart.setYAxisTitle("ln()");
-        int i = 0;
-        for (LinkedList<Typke> function : functions) {
+
+
+    public void addLnInvGraphic(List<Typke>  points, String graphicName) {
+
             List<Double> xData = new LinkedList<>();
             List<Double> yData = new LinkedList<>();
-            for (Typke point : function) {
+            for (Typke point : points) {
                 xData.add(Math.log(point.x));
                 yData.add(1 / point.y);
             }
-            i++;
-            chart.addSeries("G" + i,xData, yData);
-        }
+            chart.addSeries(graphicName, xData, yData);
+    }
+
+    public void show() {
         new SwingWrapper(chart).displayChart();
     }
 }
