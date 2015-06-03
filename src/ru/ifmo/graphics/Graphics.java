@@ -1,4 +1,4 @@
-package ru.ifmo.modeling;
+package ru.ifmo.graphics;
 
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.QuickChart;
