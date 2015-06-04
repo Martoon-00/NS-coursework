@@ -1,6 +1,5 @@
 package ru.ifmo.lang;
 
-import ru.ifmo.modeling.Typke;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,13 @@ public class Experiment {
     public Experiment(Function<Double, Double> f, double a, double b, double step) {
         measures = new ArrayList<>();
         for (double x = a; x < b * (1 + 1e-9); x += step) {
-            measures.add(new Typke(x, f.apply(x)));
+            double y;
+            try {
+                y = f.apply(x);
+            } catch (Exception e) {
+                y = Double.NaN;
+            }
+            measures.add(new Typke(x, y));
         }
     }
 
@@ -71,6 +76,65 @@ public class Experiment {
      */
     public Experiment mapY(Function<Double, Double> f) {
         return new Experiment(measures.stream().map(typke -> new Typke(typke.x, f.apply(typke.y))).collect(Collectors.toList()));
+    }
+
+
+    /**
+     * Help to create a series of experiments on same x diapason but with different functions.
+     */
+    public static class ExperimentSeries {
+        private final double a, b, step;
+        private final ArrayList<Function<Double, Double>> xMaps = new ArrayList<>();
+        private final ArrayList<Function<Double, Double>> yMaps = new ArrayList<>();
+
+        /**
+         * Creates experiment series with specified interval and step
+         *
+         * @param a    left end of interval
+         * @param b    right end of interval
+         * @param step step
+         */
+        public ExperimentSeries(double a, double b, double step) {
+            this.a = a;
+            this.b = b;
+            this.step = step;
+        }
+
+        /**
+         * Creates experiment with specified function
+         */
+        public Experiment create(Function<Double, Double> f) {
+            Experiment experiment = new Experiment(f, a, b, step);
+            for (Function<Double, Double> xMap : xMaps) {
+                experiment = experiment.mapX(xMap);
+            }
+            for (Function<Double, Double> yMap : yMaps) {
+                experiment = experiment.mapY(yMap);
+            }
+            return experiment;
+        }
+
+        /**
+         * Adds future x mapping
+         *
+         * @param f mapping function
+         * @return same object in new state
+         */
+        public ExperimentSeries mapX(Function<Double, Double> f) {
+            xMaps.add(f);
+            return this;
+        }
+
+        /**
+         * Adds future y mapping
+         *
+         * @param f mapping function
+         * @return same object in new state
+         */
+        public ExperimentSeries mapY(Function<Double, Double> f) {
+            yMaps.add(f);
+            return this;
+        }
     }
 
 }

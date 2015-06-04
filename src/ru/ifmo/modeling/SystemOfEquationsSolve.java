@@ -1,8 +1,11 @@
 package ru.ifmo.modeling;
 
-import java.util.*;
-import java.util.function.Function;
 import Jama.Matrix;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
 
 public class SystemOfEquationsSolve {
     /**
@@ -81,7 +84,7 @@ public class SystemOfEquationsSolve {
             Matrix x = (new Matrix(substituteInDerivatives(solution))).inverse()
                        .times(new Matrix(substituteInFunctions(solution), solution.size()));
             for (int j = 0; j < solution.size(); ++j) {
-                solution.set(j, solution.get(j) + x.get(j, 0));
+                solution.set(j, solution.get(j) - x.get(j, 0));
             }
 
             if (getDistanceBetweenSolutions(solutionPrev, solution) < e) {
