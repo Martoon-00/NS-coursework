@@ -24,14 +24,11 @@ public class SystemOfEquationsSolve {
      * d(f_n)/d(1) d(f_n)/d(2) ... d(f_n)/d(n) -- derivatives.get(size - 1)
      */
     List<List<Function<List<Double>, Double>>> derivatives;
-    double t; // temperature
 
     public SystemOfEquationsSolve(List<Function<List<Double>, Double>> functions,
-                                  List<List<Function<List<Double>, Double>>> derivatives,
-                                  double t) {
+                                  List<List<Function<List<Double>, Double>>> derivatives) {
         this.functions = functions;
         this.derivatives = derivatives;
-        this.t = t;
     }
 
     private double[][] substituteInDerivatives(List<Double> values) {

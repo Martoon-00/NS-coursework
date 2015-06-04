@@ -63,7 +63,7 @@ public class EquationSystems {
                     )
             );
 
-            return new SystemOfEquationsSolve(functions, derivatives, t).getSolution(initial, epsilon, maxIteration);
+            return new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIteration);
         };
 
     }
@@ -122,7 +122,7 @@ public class EquationSystems {
                     )
             );
 
-            return new SystemOfEquationsSolve(functions, derivatives, t).getSolution(initial, epsilon, maxIteration);
+            return new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIteration);
         };
 
     }
@@ -215,7 +215,7 @@ public class EquationSystems {
             System.out.println();
              */
 
-            return new SystemOfEquationsSolve(functions, derivatives, t).getSolution(initial, epsilon, maxIterationNumber);
+            return new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIterationNumber);
         };
     }
 }
