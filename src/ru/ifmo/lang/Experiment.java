@@ -1,6 +1,5 @@
 package ru.ifmo.lang;
 
-import ru.ifmo.modeling.Typke;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -120,8 +120,8 @@ public class Coefficients {
      * Contains information about coefficients of some element (h, f1..7, mu, sigma, eps)
      */
     public static class ElementCoefs {
-        private double h, mu, sigma, eps;
-        private double[] f = new double[7];
+        public final double h, mu, sigma, eps;
+        public final double[] f = new double[7];
 
         /**
          * @param params array with params in order: h, f1, f2, ... f7, mu, [sigma, eps].
