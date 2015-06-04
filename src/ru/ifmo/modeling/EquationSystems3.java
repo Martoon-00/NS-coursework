@@ -11,6 +11,7 @@ public class EquationSystems3 {
 
     /**
      * Order of variables: AlCl3(0), GaCl(1), NH3(2), HCl(3), H2(4), x(5)
+     * Initial values are p^g.
      *
      * @param H2Portion portion of H2 in H2 + N2.
      *                  2 cases of this value should be considered: 0 and 0.1
@@ -88,12 +89,12 @@ public class EquationSystems3 {
             System.out.println(xg);
             for (List<Function<List<Double>, Double>> derivative : derivatives) {
                 for (Function<List<Double>, Double> function : derivative) {
-                    System.out.print(String.format("%.2f ", function.apply(initial)));
+                    System.out.print(String.format("%.7f ", function.apply(initial)));
                 }
                 System.out.println();
             }
             System.out.println();
-              */
+             */
 
             return new SystemOfEquationsSolve(functions, derivatives, t).getSolution(initial, epsilon, maxIterationNumber);
         };

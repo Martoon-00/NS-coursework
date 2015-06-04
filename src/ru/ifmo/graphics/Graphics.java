@@ -19,7 +19,7 @@ public class Graphics {
     }
 
 
-    public void addGraphic(List<Typke> points, String graphicName) {
+    public Graphics addGraphic(List<Typke> points, String graphicName) {
 
         List<Double> xData = new LinkedList<>();
         List<Double> yData = new LinkedList<>();
@@ -28,6 +28,8 @@ public class Graphics {
             yData.add(point.y);
         }
         chart.addSeries(graphicName, xData, yData);
+
+        return this;
     }
 
     public void show() {

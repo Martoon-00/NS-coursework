@@ -31,7 +31,13 @@ public class Experiment {
     public Experiment(Function<Double, Double> f, double a, double b, double step) {
         measures = new ArrayList<>();
         for (double x = a; x < b * (1 + 1e-9); x += step) {
-            measures.add(new Typke(x, f.apply(x)));
+            double y;
+            try {
+                y = f.apply(x);
+            } catch (Exception e) {
+                y = Double.NaN;
+            }
+            measures.add(new Typke(x, y));
         }
     }
 
@@ -70,6 +76,31 @@ public class Experiment {
      */
     public Experiment mapY(Function<Double, Double> f) {
         return new Experiment(measures.stream().map(typke -> new Typke(typke.x, f.apply(typke.y))).collect(Collectors.toList()));
+    }
+
+
+    /**
+     * Help to create a series of experiments on same x diapason but with different functions.
+     */
+    public static class ExperimentSeries {
+        private final double a, b, step;
+
+        /**
+         * Creates experiment series with specified interval and step
+         *
+         * @param a    left end of interval
+         * @param b    right end of interval
+         * @param step step
+         */
+        public ExperimentSeries(double a, double b, double step) {
+            this.a = a;
+            this.b = b;
+            this.step = step;
+        }
+
+        public Experiment create(Function<Double, Double> f) {
+            return new Experiment(f, a, b, step);
+        }
     }
 
 }
