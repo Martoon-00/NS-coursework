@@ -84,6 +84,8 @@ public class Experiment {
      */
     public static class ExperimentSeries {
         private final double a, b, step;
+        private final ArrayList<Function<Double, Double>> xMaps = new ArrayList<>();
+        private final ArrayList<Function<Double, Double>> yMaps = new ArrayList<>();
 
         /**
          * Creates experiment series with specified interval and step
@@ -98,8 +100,40 @@ public class Experiment {
             this.step = step;
         }
 
+        /**
+         * Creates experiment with specified function
+         */
         public Experiment create(Function<Double, Double> f) {
-            return new Experiment(f, a, b, step);
+            Experiment experiment = new Experiment(f, a, b, step);
+            for (Function<Double, Double> xMap : xMaps) {
+                experiment = experiment.mapX(xMap);
+            }
+            for (Function<Double, Double> yMap : yMaps) {
+                experiment = experiment.mapY(yMap);
+            }
+            return experiment;
+        }
+
+        /**
+         * Adds future x mapping
+         *
+         * @param f mapping function
+         * @return same object in new state
+         */
+        public ExperimentSeries mapX(Function<Double, Double> f) {
+            xMaps.add(f);
+            return this;
+        }
+
+        /**
+         * Adds future y mapping
+         *
+         * @param f mapping function
+         * @return same object in new state
+         */
+        public ExperimentSeries mapY(Function<Double, Double> f) {
+            yMaps.add(f);
+            return this;
         }
     }
 

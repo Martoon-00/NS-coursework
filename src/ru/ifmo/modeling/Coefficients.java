@@ -114,6 +114,10 @@ public class Coefficients {
         return coefs.get(element.toUpperCase()).getDCounter();
     }
 
+    public static double getMolarVolume(String element) {
+        return getElementCoefs(element).mu / getElementDensity(element);
+    }
+
     // ----------------------------------------------- useful classes -----------------------------------------------
 
     /**
