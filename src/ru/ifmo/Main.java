@@ -29,7 +29,7 @@ public class Main {
                 .addGraphic(series.create(t -> solver.apply(t).get(2) / R / t / sigma).get(), "AlCl3")
                 .show();
         new Graphics("T^-1", "ln V_Al")
-                .addGraphic(series.create(t -> solver.apply(t).subList(0, 3).stream().reduce(0., (a, b) -> a + b) / Coefficients.getMolarVolume("Al") * 1e9).get(), "V_Al")
+                .addGraphic(series.create(t -> solver.apply(t).subList(0, 3).stream().reduce(0., (a, b) -> a + b) * Coefficients.getMolarVolume("Al") * 1e9).get(), "V_Al")
                 .show();
     }
 
@@ -48,7 +48,7 @@ public class Main {
                 .addGraphic(series.create(t -> solver.apply(t).get(2) / R / t / sigma).get(), "GaCl3")
                 .show();
         new Graphics("T^-1", "ln V_Ga")
-                .addGraphic(series.create(t -> solver.apply(t).subList(0, 3).stream().reduce(0., (a, b) -> a + b) / Coefficients.getMolarVolume("Ga") * 1e9).get(), "V_Ga")
+                .addGraphic(series.create(t -> solver.apply(t).subList(0, 3).stream().reduce(0., (a, b) -> a + b) * Coefficients.getMolarVolume("Ga") * 1e9).get(), "V_Ga")
                 .show();
     }
 
