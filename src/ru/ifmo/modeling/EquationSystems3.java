@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class EquationSystems {
+public class EquationSystems3 {
 
 
     /**
@@ -84,6 +84,7 @@ public class EquationSystems {
                     )
             );
 
+            /*
             System.out.println(xg);
             for (List<Function<List<Double>, Double>> derivative : derivatives) {
                 for (Function<List<Double>, Double> function : derivative) {
@@ -92,7 +93,7 @@ public class EquationSystems {
                 System.out.println();
             }
             System.out.println();
-
+              */
 
             return new SystemOfEquationsSolve(functions, derivatives, t).getSolution(initial, epsilon, maxIterationNumber);
         };

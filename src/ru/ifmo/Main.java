@@ -3,7 +3,7 @@ package ru.ifmo;
 import ru.ifmo.graphics.Graphics;
 import ru.ifmo.lang.CachingWrapper;
 import ru.ifmo.lang.Experiment;
-import ru.ifmo.modeling.EquationSystems;
+import ru.ifmo.modeling.EquationSystems3;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Main {
         double T = 1100 + 273;
         double sigma = 0.01;
 
-        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem3(0., Arrays.asList(1e5, 1e5, 1e5, 1e5, 1e5, 0.2), 1e-3, 1000));
+        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems3.createEquationSystem3(0., Arrays.asList(1e5, 1e5, 1e5, 1e5, 1e5, 0.2), 1e-3, 1000));
 
         Graphics graphics = new Graphics("x^g", "");
         graphics.addGraphic(new Experiment(xg -> (30 * xg - solver.apply(xg).get(0)) / R / T / sigma, 0, 0.8, 0.2).get(), "G_AlCl3");

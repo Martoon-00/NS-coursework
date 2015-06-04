@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 /**
  * Wrapper for Function<K, V> which stores result for requested arguments
- * and returns it at repeated calls.
+ * and returns it at repeated calls without calling function again.
  */
 public class CachingWrapper<K, V> implements Function<K, V> {
     private final Function<K, V> f;
