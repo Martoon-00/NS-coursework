@@ -8,6 +8,7 @@ import ru.ifmo.modeling.EquationSystems;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Main {
@@ -20,16 +21,17 @@ public class Main {
         double sigma = 0.01;
 
         Experiment.ExperimentSeries experiments = new Experiment.ExperimentSeries(350 + 273, 650 + 273, 3).mapX(x -> 1 / x).mapY(Math::log);
-
         Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem1(Arrays.asList(50., 50., 50., 50., 500.), 1e-2, 10000));
 
+        BiFunction<Integer, Double, Double> countG = (index, t) -> -solver.apply(t).get(index) / R / t / sigma * Coefficients.getDCounter("AlCl" + (index == 0 ? "" : (index + 1) + "")).apply(t);
+
         new Graphics("T^-1", "ln V_Al")
-                .addGraphic(experiments.create(t -> solver.apply(t).subList(0, 3).stream().reduce(0., (a, b) -> a + b) * Coefficients.getMolarVolume("Al") * 1e9).get(), "V_Al")
+                .addGraphic(experiments.create(t -> Arrays.asList(0, 1, 2).stream().map(index -> countG.apply(index, t)).reduce(0., (a, b) -> a + b) * Coefficients.getMolarVolume("Al") * 1e9).get(), "V_Al")
                 .show();
         new Graphics("T^-1", "ln G")
-                .addGraphic(experiments.create(t -> solver.apply(t).get(0) / R / t / sigma * Coefficients.getDCounter("AlCl").apply(t)).get(), "AlCl")
-                .addGraphic(experiments.create(t -> solver.apply(t).get(1) / R / t / sigma * Coefficients.getDCounter("AlCl2").apply(t)).get(), "AlCl2")
-                .addGraphic(experiments.create(t -> solver.apply(t).get(2) / R / t / sigma * Coefficients.getDCounter("AlCl3").apply(t)).get(), "AlCl3")
+                .addGraphic(experiments.create(t -> countG.apply(0, t)).get(), "AlCl")
+                .addGraphic(experiments.create(t -> countG.apply(1, t)).get(), "AlCl2")
+                .addGraphic(experiments.create(t -> countG.apply(2, t)).get(), "AlCl3")
                 .show();
     }
 
@@ -39,20 +41,17 @@ public class Main {
         double sigma = 0.01;
 
         Experiment.ExperimentSeries experiments = new Experiment.ExperimentSeries(650 + 273, 950 + 273, 3).mapX(x -> 1 / x).mapY(Math::log);
+        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem2(Arrays.asList(100., 100., 100., 100., 11000.), 1e-2, 10000));
 
-        Function<Double, List<Double>> equationSystem =
-//                EquationSystems.createEquationSystem2(Arrays.asList(010., 010., 010., 010., 000.), 1e-2, 10000);   any of these two give the save result
-                EquationSystems.createEquationSystem2(Arrays.asList(100., 100., 100., 100., 11000.), 1e-2, 10000);
-
-        Function<Double, List<Double>> solver = new CachingWrapper<>(equationSystem);
+        BiFunction<Integer, Double, Double> countG = (index, t) -> -solver.apply(t).get(index) / R / t / sigma * Coefficients.getDCounter("GaCl" + (index == 0 ? "" : (index + 1) + "")).apply(t);
 
         new Graphics("T^-1", "ln V_Ga")
-                .addGraphic(experiments.create(t -> solver.apply(t).subList(0, 3).stream().reduce(0., (a, b) -> a + b) * Coefficients.getMolarVolume("Ga") * 1e9).get(), "V_Ga")
+                .addGraphic(experiments.create(t -> Arrays.asList(0, 1, 2).stream().map(index -> countG.apply(index, t)).reduce(0., (a, b) -> a + b) * Coefficients.getMolarVolume("Ga") * 1e9).get(), "V_Ga")
                 .show();
         new Graphics("T^-1", "ln G")
-                .addGraphic(experiments.create(t -> solver.apply(t).get(0) / R / t / sigma * Coefficients.getDCounter("GaCl").apply(t)).get(), "GaCl")
-                .addGraphic(experiments.create(t -> solver.apply(t).get(1) / R / t / sigma * Coefficients.getDCounter("GaCl2").apply(t)).get(), "GaCl2")
-                .addGraphic(experiments.create(t -> solver.apply(t).get(2) / R / t / sigma * Coefficients.getDCounter("GaCl3").apply(t)).get(), "GaCl3")
+                .addGraphic(experiments.create(t -> countG.apply(0, t)).get(), "GaCl")
+                .addGraphic(experiments.create(t -> countG.apply(1, t)).get(), "GaCl2")
+                .addGraphic(experiments.create(t -> countG.apply(2, t)).get(), "GaCl3")
                 .show();
     }
 
