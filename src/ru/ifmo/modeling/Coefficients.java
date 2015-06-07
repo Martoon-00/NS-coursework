@@ -221,7 +221,12 @@ public class Coefficients {
          */
         public Function<Double, Double> build() {
             return t -> {
+//                for (Map.Entry<String, Integer> entry : G_coefs.entrySet()) {
+//                    System.out.println(String.format("G_%s: %d * %f", entry.getKey(), entry.getValue(), getGCounter(entry.getKey()).apply(t)));
+//                }
+
                 Double deltaG = G_coefs.entrySet().stream().reduce(0.0, (res, coef) -> res + coef.getValue() * getGCounter(coef.getKey()).apply(t), (a, b) -> a + b);
+//                System.err.println(deltaG);
                 return Math.exp(-deltaG / 8.3144621 / t) * Math.pow(1e5, P_power);
             };
         }
