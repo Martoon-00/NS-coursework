@@ -2,7 +2,6 @@ package ru.ifmo;
 
 import ru.ifmo.graphics.Graphics;
 import ru.ifmo.lang.CachingWrapper;
-import ru.ifmo.lang.Experiment;
 import ru.ifmo.modeling.Coefficients;
 import ru.ifmo.modeling.EquationSystems;
 
@@ -11,17 +10,19 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static ru.ifmo.lang.Experiment.ExperimentSeries;
+
 public class Main {
     public static void main(String[] args) {
-        analyzeEqSystem2();
+        analyzeEqSystem3(0.1);
     }
 
     public static void analyzeEqSystem1() {
         double R = 8314.4621;
         double sigma = 0.01;
 
-        Experiment.ExperimentSeries experiments = new Experiment.ExperimentSeries(350 + 273, 650 + 273, 3).mapX(x -> 1 / x).mapY(Math::log);
-        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem1(Arrays.asList(50., 50., 50., 50., 500.), 1e-2, 10000));
+        ExperimentSeries experiments = new ExperimentSeries(350 + 273, 650 + 273, 10).mapX(x -> 1 / x).mapY(y -> Math.log(-y));
+        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem1(Arrays.asList(50., 50., 50., 50., 500.), 1e-5, 10000));
 
         BiFunction<Integer, Double, Double> countG = (index, t) -> -solver.apply(t).get(index) / R / t / sigma * Coefficients.getDCounter("AlCl" + (index == 0 ? "" : (index + 1) + "")).apply(t);
 
@@ -40,8 +41,8 @@ public class Main {
         double R = 8314.4621;
         double sigma = 0.01;
 
-        Experiment.ExperimentSeries experiments = new Experiment.ExperimentSeries(650 + 273, 950 + 273, 3).mapX(x -> 1 / x).mapY(Math::log);
-        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem2(Arrays.asList(100., 100., 100., 100., 11000.), 1e-2, 10000));
+        ExperimentSeries experiments = new ExperimentSeries(650 + 273, 950 + 273, 10).mapX(x -> 1 / x).mapY(y -> Math.log(-y));
+        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem2(Arrays.asList(1.0e4, 15., 100., 15000., 10.), 1e-5, 10000));
 
         BiFunction<Integer, Double, Double> countG = (index, t) -> -solver.apply(t).get(index) / R / t / sigma * Coefficients.getDCounter("GaCl" + (index == 0 ? "" : (index + 1) + "")).apply(t);
 
@@ -60,8 +61,8 @@ public class Main {
         double T = 1100 + 273;
         double sigma = 0.01;
 
-        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem3(h2Portion, Arrays.asList(50., 50., 50., 50., 100., 0.5), 1e-2, 10000));
-        Experiment.ExperimentSeries experiments = new Experiment.ExperimentSeries(0, 1, 0.01);
+        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem3(h2Portion, Arrays.asList(50., 50., 50., 50., 100., 0.5), 1e-5, 10000));
+        ExperimentSeries experiments = new ExperimentSeries(0, 1, 0.025);
 
         Function<Double, Double> countG_AlCl3 = xg -> (30 * xg - solver.apply(xg).get(0)) / R / T / sigma * Coefficients.getDCounter("AlCl3").apply(T);
         Function<Double, Double> countG_GaCl = xg -> (30 * (1 - xg) - solver.apply(xg).get(1)) / R / T / sigma * Coefficients.getDCounter("GaCl").apply(T);
