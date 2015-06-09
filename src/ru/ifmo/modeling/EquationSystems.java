@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class EquationSystems {
 
@@ -122,6 +123,8 @@ public class EquationSystems {
                     )
             );
 
+            List<Double> vars = Arrays.asList(143454.41462371068, 150.62237912096737, 0.050557360480266655, 15612.759947482575, 5.945035356649541);
+            List<Double> result = functions.stream().map(f -> f.apply(vars)).collect(Collectors.toList());
             return new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIteration);
         };
 
@@ -204,18 +207,9 @@ public class EquationSystems {
                     )
             );
 
-            /*
-            System.out.println(xg);
-            for (List<Function<List<Double>, Double>> derivative : derivatives) {
-                for (Function<List<Double>, Double> function : derivative) {
-                    System.out.print(String.format("%.7f ", function.apply(initial)));
-                }
-                System.out.println();
-            }
-            System.out.println();
-             */
+            List<Double> vars = new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIterationNumber);
 
-            return new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIterationNumber);
+            return vars;
         };
     }
 }

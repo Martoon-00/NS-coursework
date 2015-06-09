@@ -26,7 +26,7 @@ public class Experiment {
      * Creates an experiment. f is launched on every value in [a; b] with specified step.
      * For example,
      * new Experiment(x -> x * x, -3, 5, 2)
-     * will create a set of measures: (-3, 9), (-1, 1), (1, 1), (3, 9), (5, 25)
+     * will create a list of measures: (-3, 9), (-1, 1), (1, 1), (3, 9), (5, 25)
      */
     public Experiment(Function<Double, Double> f, double a, double b, double step) {
         measures = new ArrayList<>();
@@ -56,7 +56,7 @@ public class Experiment {
      * Maps input values of experiments.
      * For example,
      * new Experiment(x -> x * x, -3, 5, 2).mapX(x -> -x)
-     * will create an experiment with following set of measures: (3, 9), (1, 1), (-1, 1), (-3, 9), (-5, 25)
+     * will create an experiment with following list of measures: (3, 9), (1, 1), (-1, 1), (-3, 9), (-5, 25)
      *
      * @param f mapping function
      * @return new Experiment instance with changes applied
@@ -69,7 +69,7 @@ public class Experiment {
      * Maps result values of experiments.
      * For example,
      * new Experiment(x -> x * x, -3, 5, 2).mapY(y -> 2 * y)
-     * will create an experiment with following set of measures: (-3, 18), (-1, 2), (1, 2), (3, 18), (5, 50)
+     * will create an experiment with following list of measures: (-3, 18), (-1, 2), (1, 2), (3, 18), (5, 50)
      *
      * @param f mapping function
      * @return new Experiment instance with changes applied
