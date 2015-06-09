@@ -207,18 +207,9 @@ public class EquationSystems {
                     )
             );
 
-            /*
-            System.out.println(xg);
-            for (List<Function<List<Double>, Double>> derivative : derivatives) {
-                for (Function<List<Double>, Double> function : derivative) {
-                    System.out.print(String.format("%.7f ", function.apply(initial)));
-                }
-                System.out.println();
-            }
-            System.out.println();
-             */
+            List<Double> vars = new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIterationNumber);
 
-            return new SystemOfEquationsSolve(functions, derivatives).getSolution(initial, epsilon, maxIterationNumber);
+            return vars;
         };
     }
 }

@@ -61,7 +61,7 @@ public class Main {
         double T = 1100 + 273;
         double sigma = 0.01;
 
-        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem3(h2Portion, Arrays.asList(50., 50., 50., 50., 100., 0.5), 1e-5, 10000));
+        Function<Double, List<Double>> solver = new CachingWrapper<>(EquationSystems.createEquationSystem3(h2Portion, Arrays.asList(10., 10., 10., 10., 1000., 0.5), 1e-5, 10000));
         ExperimentSeries experiments = new ExperimentSeries(0, 1, 0.025);
 
         Function<Double, Double> countG_AlCl3 = xg -> (30 * xg - solver.apply(xg).get(0)) / R / T / sigma * Coefficients.getDCounter("AlCl3").apply(T);
